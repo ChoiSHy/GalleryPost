@@ -16,6 +16,8 @@
     <!-- 2. (선택) 타입 별칭 등록 (자주 사용하는 DTO, VO를 짧게 부르기) -->
     <typeAliases>
         <typeAlias alias="signVo" type="com.egovframework.fusion.sign.vo.SignVO"/>
+        <typeAlias alias="postRequestDto" type="com.egovframework.fusion.post.dto.PostRequestDto"/>
+        <typeAlias alias="imageVo" type="com.egovframework.fusion.post.vo.ImageVO"/>
     </typeAliases>
 
     <!-- 3. (보통 생략) 직접 매퍼 파일 등록 -->
