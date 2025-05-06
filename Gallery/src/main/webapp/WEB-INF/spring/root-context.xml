@@ -28,5 +28,9 @@
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.egovframework.fusion.mapper"/>
     </bean>
-
+    <!-- MultipartResolver -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="1000000000"/>
+        <property name="maxInMemorySize" value="1000000000"></property>
+    </bean>
 </beans>

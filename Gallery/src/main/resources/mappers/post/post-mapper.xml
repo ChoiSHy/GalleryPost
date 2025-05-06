@@ -1,5 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.egovframework.fusion."></mapper>
-        <!-- SQL Mapping -->
+<mapper namespace="com.egovframework.fusion.mapper.PostMapper">
+    <!-- SQL Mapping -->
+    <!-- 포스트 정보 저장 -->
+    <insert id="insPostData" parameterType="postRequestDto">
+        <!--입력후 post_id 리턴-->
+        <selectKey resultType="int" keyProperty="postId" order="BEFORE">
+            SELECT SEQ_POST.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO TB_POST(
+                             POST_ID
+                            ,POST_TITLE
+                            ,POST_CONTENT
+                            ,POST_REGIST_DATE
+                            ,POST_UPDATE_DATE
+                            ,POST_DEL_YN
+                            ,POST_LIKES
+                            ,USER_ID)
+        VALUES (
+                             #{postId}
+                            ,#{title}
+                            ,#{content}
+                            ,SYSDATE
+                            ,SYSDATE
+                            ,'N'
+                            ,0
+                            ,#{userId}
+               )
+
+    </insert>
+
+</mapper>

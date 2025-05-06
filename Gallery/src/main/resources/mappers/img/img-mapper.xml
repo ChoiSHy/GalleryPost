@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.egovframework.fusion.mapper.ImageMapper">
+
+    <insert id="insImg" parameterType="imageVo" >
+        insert into TB_IMG
+        (IMG_ID
+        ,IMG_ORIGIN_NAME
+        ,IMG_SAVED_NAME
+        ,IMG_PATH
+        ,IMG_DEL_YN
+        ,IMG_SAVE_DATE
+        ,POST_ID)
+
+        (SELECT SEQ_IMG.nextval, a.* FROM
+
+        (<foreach collection="list" item="item" separator="union all">
+        SELECT
+        #{item.imgOriginName} as IMG_ORIGIN_NAME,
+        #{item.imgSavedName} as IMG_SAVED_NAME,
+        #{item.imgPath} as IMG_PATH,
+        'N' AS IMG_DEL_YN,
+        SYSDATE as IMG_SAVE_DATE,
+        #{item.postId} as POST_ID
+        FROM dual
+    </foreach>) a )
+
+    </insert>
+
+</mapper>
