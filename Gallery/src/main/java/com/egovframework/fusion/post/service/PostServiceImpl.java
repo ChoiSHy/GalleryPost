@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -63,5 +64,21 @@ public class PostServiceImpl implements PostService {
             // 3. 기록 insert
             imageMapper.insImg(imageList);
         }
+    }
+    public ImageVO getImage(ImageVO imageVo){
+        ImageVO resImageVo = imageMapper.getImageByImgId(imageVo);
+        if(resImageVo == null){
+            throw new RuntimeException("해당 이미지 정보를 찾을 수 없음");
+        }
+
+        return resImageVo;
+    }
+    public ImageVO downloadImage(ImageVO imageVO){
+        ImageVO resImageVo = getImage(imageVO);
+        if(resImageVo == null){
+            throw new RuntimeException("해당 이미지 정보를 찾을 수 없음");
+        }
+        imageMapper.insDownload(resImageVo);
+        return resImageVo;
     }
 }

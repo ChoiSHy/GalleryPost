@@ -31,4 +31,42 @@
 
     </insert>
 
+
+    <select id="getPostListOrderLikesAsc">
+        SELECT      *
+        FROM        TB_POST
+        ORDER BY    POST_LIKES ASC
+    </select>
+    <select id="getPostListOrderLikesDesc">
+        SELECT      *
+        FROM        TB_POST
+        ORDER BY    POST_LIKES DESC
+    </select>
+
+    <select id="getPost" parameterType="com.egovframework.fusion.post.dto.PostDto">
+        SELECT       P.*
+                    ,
+        FROM         TB_POST P
+                    ,TB_DOWNLOAD D
+        WHERE POST_ID = #{postId}
+    </select>
+
+    <!--이미지 다운로드 수 포함 post 정보 가져오기. -->
+    <select id="getTotalDownload">
+        SELECT      P.POST_ID, SUM(CNT)
+        FROM        TB_POST P JOIN
+                    (
+                        SELECT I.*, D.CNT
+                        FROM
+                            (
+                                SELECT      IMG_ID, COUNT(*) CNT
+                                FROM        TB_DOWNLOAD
+                                GROUP BY    IMG_ID
+                            ) D
+                                JOIN TB_IMG I ON I.IMG_ID = D.IMG_ID
+
+                    ) A ON P.POST_ID = A.POST_ID
+        WHERE P.POST_DEL_YN='N'
+        GROUP BY P.POST_ID
+    </select>
 </mapper>

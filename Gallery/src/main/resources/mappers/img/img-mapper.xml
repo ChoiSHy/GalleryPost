@@ -27,5 +27,44 @@
     </foreach>) a )
 
     </insert>
+    <select id="getImageByImgId" parameterType="imageVo" resultType="imageVo">
+        SELECT
+                 I.IMG_ID
+                ,I.IMG_ORIGIN_NAME
+                ,I.IMG_SAVED_NAME
+                ,I.IMG_PATH
+                ,I.IMG_DEL_YN
+                ,I.IMG_SAVE_DATE
+                ,I.POST_ID
+        FROM
+                 TB_IMG I
+        WHERE
+                 I.IMG_ID = #{imgId}
+    </select>
 
+    <insert id="insDownload" parameterType="imageVO">
+        INSERT INTO TB_DOWNLOAD(
+                 DOWNLOAD_ID
+                ,DOWNLOAD_DATE
+                ,IMG_ID
+        )
+        VALUES (
+                 SEQ_DOWNLOAD.NEXTVAL
+                ,SYSDATE
+                ,#{imgId}
+        )
+    </insert>
+
+    <select id="getImageWithDownloadCnt" parameterType="imageVO">
+        SELECT I.*, A.CNT
+        FROM TB_IMG I
+                 JOIN
+             (SELECT  IMG_ID, COUNT(*) CNT
+              FROM    TB_DOWNLOAD
+              GROUP BY IMG_ID
+             ) A
+             ON I.IMG_ID = A.IMG_ID
+        WHERE I.IMG_ID= #{imgId}
+        AND   I.IMG_DEL_YN = 'N'
+    </select>
 </mapper>
